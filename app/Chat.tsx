@@ -224,8 +224,10 @@ interface ChatProps {
     canChat: boolean;
   };
   // initialMessages: Message[];
+  // let initialMessages: Message[] = [];
+  // initialConversationId: string | null | undefined;
   let initialMessages: Message[] = [];
-  initialConversationId: string | null | undefined;
+let initialConversationId: string | null | undefined = undefined;
 }
 
 function updateThinkingData(
