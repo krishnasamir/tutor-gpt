@@ -12,7 +12,8 @@ import { useRef, useEffect, useState, ElementRef, useMemo } from 'react';
 import { usePostHog } from 'posthog-js/react';
 
 // import { createClient } from '@/utils/supabase/client';
-import { Reaction } from '@/components/messagebox';
+//import { Reaction } from '@/components/messagebox';
+import type { Reaction } from '@/components/messagebox';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import { getFreeMessageCount, useFreeTrial } from '@/utils/supabase/actions';
