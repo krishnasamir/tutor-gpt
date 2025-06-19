@@ -5,6 +5,7 @@ import { getConversations } from './actions/conversations';
 import { getMessages } from './actions/messages';
 import { getChatAccessWithUser } from '@/utils/supabase/actions';
 import { CookieConsentBanner } from '@/components/cookieConsentBanner';
+import { type Message } from '@/utils/types';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -44,8 +45,8 @@ export default async function Home() {
   const conversations = await getConversations();
 
   // Get messages for the first conversation if it exists
-  let initialMessages = [];
-  let initialConversationId;
+  let initialMessages: Message[] = [];
+  let initialConversationId: string | undefined = undefined;
   if (conversations.length > 0) {
     initialConversationId = conversations[0].conversationId;
     initialMessages = await getMessages(initialConversationId);
@@ -65,6 +66,73 @@ export default async function Home() {
     </>
   );
 }
+// import { createClient } from '@/utils/supabase/server';
+// import { redirect } from 'next/navigation';
+// import Chat from './Chat';
+// import { getConversations } from './actions/conversations';
+// import { getMessages } from './actions/messages';
+// import { getChatAccessWithUser } from '@/utils/supabase/actions';
+// import { CookieConsentBanner } from '@/components/cookieConsentBanner';
+
+// export default async function Home() {
+//   const supabase = await createClient();
+//   const { data: { user } } = await supabase.auth.getUser();
+
+//   if (!user) {
+//     // Fallback to client-side detection if user is not found on server
+//     return (
+//       <div suppressHydrationWarning>
+//         <script
+//           dangerouslySetInnerHTML={{
+//             __html: `
+//               if (typeof window !== 'undefined') {
+//                 window.location.href = '/auth';
+//               }
+//             `,
+//           }}
+//         />
+//         <div>Loading...</div>
+//       </div>
+//     );
+//   }
+
+//   // Get initial subscription state
+//   const isDevMode = process.env.NEXT_PUBLIC_STRIPE_ENABLED === 'false';
+//   const realChatAccess = isDevMode
+//     ? { isSubscribed: true, freeMessages: 100 }
+//     : await getChatAccessWithUser(user.id);
+
+//   const chatAccess = {
+//     isSubscribed: realChatAccess.isSubscribed,
+//     freeMessages: realChatAccess.freeMessages,
+//     canChat: realChatAccess.isSubscribed || realChatAccess.freeMessages > 0,
+//   };
+
+//   // Get initial conversations
+//   const conversations = await getConversations();
+
+//   // Get messages for the first conversation if it exists
+//   let initialMessages = [];
+//   let initialConversationId;
+//   if (conversations.length > 0) {
+//     initialConversationId = conversations[0].conversationId;
+//     initialMessages = await getMessages(initialConversationId);
+//   }
+
+//   return (
+//     <>
+//       <CookieConsentBanner />
+//       <Chat
+//         initialUserId={user.id}
+//         initialEmail={user.email}
+//         initialConversations={conversations}
+//         initialMessages={initialMessages}
+//         initialConversationId={initialConversationId}
+//         initialChatAccess={chatAccess}
+//       />
+//     </>
+//   );
+// }
 
 
 // import { getChatAccessWithUser } from '@/utils/supabase/actions';
