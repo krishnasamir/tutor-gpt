@@ -1,6 +1,6 @@
 'use client';
 import useSWR from 'swr';
-
+import { type Message } from '@/utils/types';
 import dynamic from 'next/dynamic';
 
 import { FiMenu } from 'react-icons/fi';
@@ -223,7 +223,8 @@ interface ChatProps {
     freeMessages: number;
     canChat: boolean;
   };
-  initialMessages: Message[];
+  // initialMessages: Message[];
+  let initialMessages: Message[] = [];
   initialConversationId: string | null | undefined;
 }
 
