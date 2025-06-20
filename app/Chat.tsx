@@ -32,7 +32,7 @@ import { localStorageProvider } from '@/utils/swrCache';
 import useAutoScroll from '@/hooks/autoscroll';
 import MessageList from '@/components/MessageList';
 import { MessageListRef } from '@/components/MessageList';
-
+type Reaction = '👍' | '❤️' | '😂' | '👎';
 const Thoughts = dynamic(() => import('@/components/thoughts'), {
   ssr: false,
 });
