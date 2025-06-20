@@ -336,7 +336,8 @@ What's on your mind? Let's dive in. 🌱`,
     },
   });
 
-  const handleReactionAdded = async (messageId: string, reaction: Reaction) => {
+  //const handleReactionAdded = async (messageId: string, reaction: Reaction) => {
+    const handleReactionAdded = async (messageId: string, reaction: string) => {
     if (!userId || !conversationId) return;
 
     try {
