@@ -32,13 +32,15 @@ import { localStorageProvider } from '@/utils/swrCache';
 import useAutoScroll from '@/hooks/autoscroll';
 import MessageList from '@/components/MessageList';
 import { MessageListRef } from '@/components/MessageList';
-type Reaction = '👍' | '❤️' | '😂' | '👎';
-const emojiToInternalReaction = {
+type Reaction = '👍' | '👎' | '❤️' | '😂';
+
+const emojiToInternalReaction: Record<Reaction, 'thumbs_up' | 'thumbs_down'> = {
   '👍': 'thumbs_up',
   '👎': 'thumbs_down',
   '❤️': 'thumbs_up',
   '😂': 'thumbs_up',
 };
+
 const Thoughts = dynamic(() => import('@/components/thoughts'), {
   ssr: false,
 });
@@ -344,17 +346,19 @@ What's on your mind? Let's dive in. 🌱`,
 
   //const handleReactionAdded = async (messageId: string, reaction: Reaction) => {
   //  const handleReactionAdded = async (messageId: string, reaction: string) => {
-    const handleReactionAdded = async (messageId: string, reaction: Reaction) => {
-    if (!userId || !conversationId) return;
+   const handleReactionAdded = async (messageId: string, reaction: Reaction) => {
+  if (!userId || !conversationId) return;
 
-    try {
-     // await addOrRemoveReaction(conversationId, messageId, reaction);
-     await addOrRemoveReaction(
-     conversationId,
-     messageId,
-     emojiToInternalReaction[reaction] ?? null
-);
-
+  try {
+    await addOrRemoveReaction(
+      conversationId,
+      messageId,
+      emojiToInternalReaction[reaction]
+    );
+  } catch (err) {
+    console.error('Reaction failed', err);
+  }
+};
       // Optimistically update the local data
       mutateMessages(
         (currentMessages) => {
