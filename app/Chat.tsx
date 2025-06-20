@@ -15,7 +15,7 @@ import { usePostHog } from 'posthog-js/react';
 //import { Reaction } from '@/components/messagebox';
 //import type { Reaction } from '@/components/messagebox';
 // import type { Reaction } from '../components/messagebox';
-import MessageBox from '../components/MessageBox';
+//import MessageBox from '../components/MessageBox';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import { getFreeMessageCount, useFreeTrial } from '@/utils/supabase/actions';
