@@ -608,7 +608,7 @@ What's on your mind? Let's dive in. 🌱`,
         mutateConversations={mutateConversations}
         conversationId={conversationId}
         setConversationId={setConversationId}
-        isSidebarOpen={isSidebarOpen}
+        //isSidebarOpen={isSidebarOpen}
         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
         canUseApp={canUseApp}
         onNewChat={() => {
