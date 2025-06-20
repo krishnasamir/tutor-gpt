@@ -5,7 +5,7 @@ interface BaseMessage {
   content: string;
   metadata: Record<string, unknown>;
 }
-
+export type Reaction = '👍' | '❤️' | '😂' | '👎';
 export interface ThinkingData {
   thoughtContent: string;
   thoughtFinished: boolean;
