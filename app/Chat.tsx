@@ -355,10 +355,10 @@ What's on your mind? Let's dive in. 🌱`,
       messageId,
       emojiToInternalReaction[reaction]
     );
-  } catch (err) {
-    console.error('Reaction failed', err);
-  }
-};
+  // } catch (err) {
+  //   console.error('Reaction failed', err);
+  // }
+
       // Optimistically update the local data
       mutateMessages(
         (currentMessages) => {
