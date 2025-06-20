@@ -12,10 +12,7 @@ import { useRef, useEffect, useState, ElementRef, useMemo } from 'react';
 import { usePostHog } from 'posthog-js/react';
 
 // import { createClient } from '@/utils/supabase/client';
-//import { Reaction } from '@/components/messagebox';
-//import type { Reaction } from '@/components/messagebox';
-// import type { Reaction } from '../components/messagebox';
-//import MessageBox from '../components/MessageBox';
+////// //import MessageBox from '../components/MessageBox';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
 import { getFreeMessageCount, useFreeTrial } from '@/utils/supabase/actions';
@@ -24,7 +21,6 @@ import {
   createConversation,
   updateConversation,
 } from './actions/conversations';
-import { getMessages, addOrRemoveReaction } from './actions/messages';
 import { Conversation, Message } from '@/utils/types';
 import { localStorageProvider } from '@/utils/swrCache';
 
@@ -335,7 +331,7 @@ What's on your mind? Let's dive in. 🌱`,
     },
   });
 
-  const handleReactionAdded = async (messageId: string, reaction: Reaction) => {
+  const handleReactionAdded = async (messageId: string, reaction: string) => {
     if (!userId || !conversationId) return;
 
     try {
@@ -750,8 +746,7 @@ What's on your mind? Let's dive in. 🌱`,
 //   createConversation,
 //   updateConversation,
 // } from './actions/conversations';
-// import { getMessages, addOrRemoveReaction } from './actions/messages';
-// import { Conversation, Message, ThinkingData } from '@/utils/types';
+// // import { Conversation, Message, ThinkingData } from '@/utils/types';
 // import { localStorageProvider } from '@/utils/swrCache';
 // import FileUploadComponent from '@/components/FileUpload';
 // import { ParsedFile } from '@/utils/parseFiles';
@@ -759,8 +754,7 @@ What's on your mind? Let's dive in. 🌱`,
 // import useAutoScroll from '@/hooks/autoscroll';
 // import MessageList from '@/components/MessageList';
 // import { MessageListRef } from '@/components/MessageList';
-// import { Reaction } from '@/components/messages/AIMessage';
-// import {
+// // import {
 //   PromptInput,
 //   PromptInputAction,
 //   PromptInputActions,
@@ -1146,7 +1140,7 @@ What's on your mind? Let's dive in. 🌱`,
 //     },
 //   });
 
-//   const handleReactionAdded = async (messageId: string, reaction: Reaction) => {
+//   const handleReactionAdded = async (messageId: string, reaction: string) => {
 //     if (!userId || !conversationId) return;
 
 //     try {
