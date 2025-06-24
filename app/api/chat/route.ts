@@ -17,7 +17,7 @@ function rateLimitHeaders({ remaining, resetTime }: RateLimitResult) {
 }
 
 export const runtime = 'nodejs';
-export const maxDuration = 300; // TODO: increase when fluid compute turns on
+export const maxDuration = 60; // TODO: increase when fluid compute turns on
 export const dynamic = 'force-dynamic'; // always run dynamically
 
 export async function POST(req: NextRequest) {
