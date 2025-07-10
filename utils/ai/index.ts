@@ -227,6 +227,44 @@ export async function* respond({
     );
   });
   // const rawUserInput = "I need help solving x² - 5x + 6 = 0. I think I have to factor it, but I don’t know how.";
+  const SYSTEM_PROMPT = `You are a Socratic phase classifier.
+
+Your job is to classify a student's message into one of three learning phases: "before", "during", or "after".
+
+Definitions:
+- "before": The student is asking for help, expressing confusion, or initiating a new question (e.g., "How do I...?" or "What is 9 - 3?")
+- "during": The student is reasoning through a problem, asking a clarifying question about their own thought process (e.g., "Should I factor this next?" or "Is -2 one of the answers?")
+- "after": The student is reflecting on what they did, or summarizing their approach (e.g., "So I rewrote the expression as..." or "Then I got x = 3")
+
+Instructions:
+- Analyze the **intention** behind the message, not just its format.
+- Even if the message is a question, classify it based on the student's role in the learning process.
+- Respond with ONLY one word: "before", "during", or "after".
+`;
+
+export async function detectPhaseWithLLM(userInput: string): Promise<"before" | "during" | "after"> {
+  const model = provider(MODEL);
+
+  const result = await generateTextAi({
+    model,
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userInput }
+    ],
+    temperature: 0,
+    providerOptions: {
+      [AI_PROVIDER]: {
+        max_tokens: 5
+      }
+    }
+  });
+
+  const response = result.text?.toLowerCase().trim();
+
+  if (response?.includes("during")) return "during";
+  if (response?.includes("after")) return "after";
+  return "before";
+}
   const detectedPhase = await detectPhaseWithLLM(message);
   function wrapUserMessageByPhase(userInput: string, phase: "before" | "during" | "after"): string {
     const instructionByPhase = {
