@@ -4,9 +4,19 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText as generateTextAi } from 'ai';
 
-const SYSTEM_PROMPT = `You are a Socratic phase classifier...
+const SYSTEM_PROMPT = `You are a Socratic phase classifier.
 
-(your full prompt here)
+Your job is to classify a student's message into one of three learning phases: "before", "during", or "after".
+
+Definitions:
+- "before": The student is asking for help, expressing confusion, or initiating a new question (e.g., "How do I...?" or "What is 9 - 3?")
+- "during": The student is reasoning through a problem, asking a clarifying question about their own thought process (e.g., "Should I factor this next?" or "Is -2 one of the answers?")
+- "after": The student is reflecting on what they did, or summarizing their approach (e.g., "So I rewrote the expression as..." or "Then I got x = 3")
+
+Instructions:
+- Analyze the **intention** behind the message, not just its format.
+- Even if the message is a question, classify it based on the student's role in the learning process.
+- Respond with ONLY one word: "before", "during", or "after".
 `;
 
 const provider = createOpenAICompatible({
