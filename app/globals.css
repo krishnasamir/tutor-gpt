@@ -4,11 +4,14 @@
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 
 @theme {
-  --color-neon-green: #d1ef53;
+  /* --color-neon-green: #d1ef53; */
+  --color-neon-green: #60a5fa;
   --color-dark-green: #0e281c;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-secondary-background: var(--secondary-background);
+  --color-secondary-background1: var(--secondary-background1);
+  --color-secondary-background2: var(--secondary-background2);
 
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
@@ -106,9 +109,13 @@
 
 @layer base {
   :root {
-    --background: #f3f1ee;
+    --background: #fff;
     --secondary-background: #e7e4df;
+    --secondary-background1: #e0f2fe; /* Tailwind's blue-100 */
+    --secondary-background2: #174fa3;
     --foreground: #000000;
+    --foreground1: #174fa3;
+    --foreground2: #000000;
     --secondary: 0, 0%, 98%; /* #FAFAFA */
     --accent: 0, 0%, 89%; /* #E2E2E2 */
     --muted: 0, 0%, 96%; /* #f5f5f5 */
@@ -123,11 +130,17 @@
     --input: 0, 0%, 100%; /* #ffffff */
     --ring: 84, 78%, 64%; /* #d1ef53 */
     font-size: 87.5%;
+
+    /* font-size: 100%; */
   }
   .dark {
     --background: #191919;
     --secondary-background: #2a2a2a;
+    --secondary-background1: #2a2a2a; /* Tailwind's blue-100 */
+    --secondary-background2: #2a2a2a;
     --foreground: #f3f1ed;
+    --foreground1: #f3f1ed;
+    --foreground2: #f3f1ed;
     --secondary: 0, 0%, 0%; /* #000000 */
     --accent: 0, 0%, 22%; /* #383838 */
     --muted: 0, 0%, 20%; /* #333333 */
@@ -164,4 +177,24 @@ button:hover {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.sidebar-divider {
+  border-bottom: 1px solid #ccc;
+  margin: 16px 0;
+  width: 100%;
+  min-height: 1px;
+  display: block;
+}
+
+.conversation-title {
+  font-family: system-ui, 'Segoe UI', Arial, Helvetica, sans-serif;
+}
+
+.text-foreground1 {
+  color: var(--foreground1) !important;
 }

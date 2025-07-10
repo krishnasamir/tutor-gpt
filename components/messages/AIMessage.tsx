@@ -61,8 +61,19 @@ function AIMessage({
       )}
 
       {/* AI message content - no background, just text on page background */}
-      <div className="text-foreground mb-3">
-        <MarkdownWrapper text={content} />
+      <div className="flex items-center w-full justify-start mb-4">
+        <div className="flex-shrink-0 mr-2">
+          <div className="w-8 h-8 rounded-full bg-[#174fa3] flex items-center justify-center text-white font-bold text-base">
+            A
+          </div>
+        </div>
+
+        <div
+          className=" bg-secondary-background1 text-foreground rounded-2xl px-4 py-3 shadow"
+          style={{ boxShadow: '2px 2px 0px 0px rgba(0,0,0,0.16)', fontFamily: 'Times New Roman, serif' }}
+        >
+          <MarkdownWrapper text={content} />
+        </div>
       </div>
 
       {/* Action buttons for AI messages */}

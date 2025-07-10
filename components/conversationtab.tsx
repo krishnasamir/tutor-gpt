@@ -2,6 +2,7 @@ import { Conversation } from '@/utils/types';
 import { MoreHorizontal, Edit, Trash2 } from 'lucide-react';
 import Skeleton from 'react-loading-skeleton';
 import { departureMono } from '@/utils/fonts';
+import { Roboto } from 'next/font/google';
 import {
   ContextMenu,
   ContextMenuContent,
@@ -14,6 +15,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+
+const roboto = Roboto({ subsets: ['latin'], weight: '400' });
 
 interface ConversationTabRegularProps {
   conversation: Conversation;
@@ -81,7 +84,7 @@ export function ConversationTab({
   if (loading) {
     return (
       <div
-        className={`${departureMono.className} px-2.5 py-2 rounded-xl flex justify-between items-center overflow-hidden w-full`}
+        className={`${roboto.className} px-2.5 py-2 rounded-xl flex justify-between items-center overflow-hidden w-full`}
       >
         <div className="flex-1">
           <Skeleton height={20} className="mb-1" />
@@ -95,9 +98,8 @@ export function ConversationTab({
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <div
-          className={`${departureMono.className} px-2.5 py-2 rounded-xl flex justify-between items-center overflow-hidden cursor-pointer hover:bg-secondary-background transition-colors w-full ${
-            selected ? 'bg-secondary-background' : ''
-          }`}
+          className={`${roboto.className} px-2.5 py-2 rounded-xl flex justify-between items-center overflow-hidden cursor-pointer hover:bg-secondary-background1 transition-colors w-full ${selected ? 'bg-secondary-background1' : ''
+            }`}
           onClick={select}
         >
           <div className="flex flex-col justify-start items-start gap-0.5 flex-1 min-w-0">

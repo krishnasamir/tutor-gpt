@@ -46,44 +46,34 @@ export default function SignIn(props: any) {
         className={`mt-8 space-y-6 text-foreground`}
       >
         <div>
-          <label
-            htmlFor="email"
-            className={`block text-sm font-medium text-foreground`}
-          >
-            Email
-          </label>
 
           <input
             type="email"
             id="email"
             name="email"
-            className={`p-2 mt-1 w-full rounded-md text-sm shadow-xs bg-accent text-foreground ${error ? 'border-2 border-red-500' : ''}`}
+            placeholder="Email"
+            className={`w-full border border-gray-400 text-gray-900 bg-white px-4 py-2 rounded text-base focus:outline-none focus:ring-2 focus:ring-[#174fa3]${error ? ' border-2 border-red-700' : ''}`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="password"
-            className={`block text-sm font-medium text-foreground`}
-          >
-            Password
-          </label>
 
           <input
             type="password"
             id="password"
             name="password"
-            className={`p-2 mt-1 w-full rounded-md text-sm shadow-xs bg-accent text-foreground ${error ? 'border-2 border-red-500' : ''}`}
+            placeholder="Password"
+            className={`w-full border border-gray-400 text-gray-900 bg-white px-4 py-2 rounded text-base focus:outline-none focus:ring-2 focus:ring-[#174fa3]${error ? ' border-2 border-red-700' : ''}`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <div className="sm:flex sm:items-center sm:gap-4">
+        <div>
           <button
-            className={`inline-block w-full sm:w-auto shrink-0 rounded-md border px-12 py-3 text-sm font-medium transition focus:outline-hidden focus:ring-3 text-black bg-accent hover:border-neon-green hover:bg-neon-green hover:bg-neon-green dark:hover:text-neon-green dark:border-neon-green dark:bg-neon-green dark:hover:bg-transparent`}
+            className={`w-full bg-[#174fa3] text-white font-medium py-2 rounded mt-2  text-base hover:bg-blue-900 transition`}
           >
             {isLoading ? (
               <svg className="animate-spin h-5 w-5 mx-auto" viewBox="0 0 24 24">
@@ -102,37 +92,47 @@ export default function SignIn(props: any) {
                 ></path>
               </svg>
             ) : (
-              'Login'
+              'SIGN IN'
             )}
           </button>
+        </div>
 
-          <div className="mt-4 space-y-2 sm:mt-0 text-sm">
-            <p className="text-foreground">
-              Don&apos;t have an account?{' '}
-              <a
-                href="#"
-                onClick={() => stateSync('SIGNUP')}
-                className={`underline text-foreground`}
-              >
-                Sign Up Now
-              </a>
-            </p>
-            <p className="text-foreground">
-              Forgot Your Password?{' '}
-              <a
-                href="#"
-                onClick={() => stateSync('FORGOT')}
-                className={`underline text-foreground`}
-              >
-                Recover
-              </a>
-            </p>
-          </div>
+        <div className="flex justify-center items-center text-base mb-4">
+
+            <p className="text-foreground2">
+            Don&apos;t have an account?{' '}
+            <a
+              href="#"
+              onClick={() => stateSync('SIGNUP')}
+              className="ml-1 text-[#174fa3] font-semibold hover:text-blue-900"
+            >
+              Sign Up
+            </a>
+          </p>
+        </div>
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-4 text-gray-400 text-sm font-medium">OR</span>
+          <div className="flex-grow border-t border-gray-300"></div>
         </div>
       </form>
       <div className="mt-6 space-y-4">
         <GoogleSignIn text="Sign In" />
-        <DiscordSignIn text="Sign In" />
+        {/* <DiscordSignIn text="Sign In" /> */}
+
+        <button
+          className={`w-full border border-[#174fa3] text-[#174fa3] bg-white py-2 rounded mb-2 text-base font-medium hover:bg-[#f0f6fb] transition`}
+        >
+          <span className="mr-2"> {/* Optional: Clever logo here */} </span>
+          Continue with Clever
+        </button>
+
+        <button
+          className={`w-full border border-[#174fa3] text-[#174fa3] bg-white py-2 rounded mb-2 text-base font-medium hover:bg-[#f0f6fb] transition`}
+        >
+          <span className="mr-2"> {/* Optional: ClassLink logo here */} </span>
+          Continue with ClassLink
+        </button>
       </div>
     </>
   );

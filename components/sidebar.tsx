@@ -16,6 +16,7 @@ import {
 import { type Conversation, type Message } from '@/utils/types';
 import { clearSWRCache } from '@/utils/swrCache';
 import { departureMono } from '@/utils/fonts';
+import { Roboto } from 'next/font/google';
 import {
   Dialog,
   DialogContent,
@@ -43,6 +44,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import Image from 'next/image';
+
+const roboto = Roboto({ subsets: ['latin'], weight: '400' });
 
 export default function Sidebar({
   conversations,
@@ -195,32 +199,43 @@ export default function Sidebar({
   const { data: user, isLoading: isUserLoading } = useSWR('user', fetchUser);
 
   return (
-    <div className={`${departureMono.className} h-full w-full`}>
+    <div className={`${roboto.className} h-full w-full`}>
       <div className="h-full overflow-hidden bg-background border-r border-border flex flex-col justify-between items-start">
         {/* Top section with conversations */}
         <div className="self-stretch px-2.5 py-5 flex flex-col justify-start items-start overflow-y-auto flex-1 gap-2">
           {/* Header */}
           <div className="px-2.5 py-1 flex justify-center items-center gap-2.5">
+            <a className="block text-blue-600" href="/">
+              <span className="sr-only">Home</span>
+              <Image
+                src="/bloomicon.jpg"
+                alt="banner"
+                width={40}
+                height={40}
+                className="h-10 sm:h-10 w-auto rounded-full"
+              />
+            </a>
             <div className="text-muted-foreground text-xs font-normal">
               Past Chats
             </div>
           </div>
+          <div className="sidebar-divider" />
 
           {/* Conversation list */}
           {conversations.length > 0
             ? conversations.map((cur, i) => (
-                <ConversationTab
-                  conversation={cur}
-                  select={() => setConversationId(cur.conversationId)}
-                  selected={conversationId === cur.conversationId}
-                  edit={() => editConversation(cur)}
-                  del={() => removeConversation(cur)}
-                  key={i}
-                />
-              ))
+              <ConversationTab
+                conversation={cur}
+                select={() => setConversationId(cur.conversationId)}
+                selected={conversationId === cur.conversationId}
+                edit={() => editConversation(cur)}
+                del={() => removeConversation(cur)}
+                key={i}
+              />
+            ))
             : Array.from({ length: 5 }).map((_, i) => (
-                <ConversationTab loading key={i} />
-              ))}
+              <ConversationTab loading key={i} />
+            ))}
         </div>
 
         {/* Bottom section with user info */}
@@ -279,7 +294,7 @@ export default function Sidebar({
       {/* Edit Conversation Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
         <DialogContent
-          className={`sm:max-w-[425px] ${departureMono.className}`}
+          className={`sm:max-w-[425px] ${roboto.className} conversation-title`}
         >
           <DialogHeader>
             <DialogTitle>Rename Conversation</DialogTitle>
@@ -320,7 +335,9 @@ export default function Sidebar({
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent className={departureMono.className}>
+        <AlertDialogContent
+          className={roboto.className}
+        >
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Conversation</AlertDialogTitle>
             <AlertDialogDescription>

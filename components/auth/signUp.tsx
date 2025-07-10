@@ -89,15 +89,13 @@ export default function SignUp(props: {
         className={`mt-8 space-y-6 text-foreground`}
       >
         <div>
-          <label htmlFor="Email" className={`block text-sm font-medium`}>
-            Email
-          </label>
 
           <input
             type="email"
             id="Email"
             name="email"
-            className={`p-2 mt-1 w-full rounded-md text-sm shadow-xs text-foreground bg-accent`}
+            placeholder="Email"
+            className={`w-full border border-gray-400 text-gray-900 bg-white px-4 py-2 rounded text-base focus:outline-none focus:ring-2 focus:ring-[#174fa3]`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -105,36 +103,26 @@ export default function SignUp(props: {
 
         <div className="flex flex-col sm:flex-row gap-6">
           <div className="flex-1">
-            <label
-              htmlFor="Password"
-              className={`block text-sm font-medium text-foreground`}
-            >
-              Password
-            </label>
 
             <input
               type="password"
               id="Password"
               name="password"
-              className={`p-2 mt-1 w-full rounded-md text-sm shadow-xs text-foreground bg-accent`}
+              placeholder="Password"
+              className={`w-full border border-gray-400 text-gray-900 bg-white px-4 py-2 rounded text-base focus:outline-none focus:ring-2 focus:ring-[#174fa3]`}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
           <div className="flex-1">
-            <label
-              htmlFor="PasswordConfirmation"
-              className={`block text-sm font-medium text-foreground`}
-            >
-              Password Confirmation
-            </label>
 
             <input
               type="password"
               id="PasswordConfirmation"
               name="password_confirmation"
-              className={`p-2 mt-1 w-full rounded-md text-sm shadow-xs text-foreground bg-accent`}
+              placeholder="Password Confirmation"
+              className={`w-full border border-gray-400 text-gray-900 bg-white px-4 py-2 rounded text-base focus:outline-none focus:ring-2 focus:ring-[#174fa3]`}
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
             />
@@ -183,7 +171,7 @@ export default function SignUp(props: {
             <a
               href="https://app.termly.io/document/terms-of-service/ba5ac452-fdd6-4746-8b31-973351d05008"
               target="_blank"
-              className={`underline text-foreground`}
+              className="ml-1 text-[#174fa3] font-semibold hover:text-blue-900"
               rel="noreferrer"
             >
               Terms and Conditions
@@ -192,7 +180,7 @@ export default function SignUp(props: {
             <a
               href="https://app.termly.io/document/privacy-policy/29672110-b634-40ae-854d-ebaf55e8fa75"
               target="_blank"
-              className={`underline text-foreground`}
+              className="ml-1 text-[#174fa3] font-semibold hover:text-blue-900"
               rel="noreferrer"
             >
               Privacy Policy
@@ -200,14 +188,9 @@ export default function SignUp(props: {
             .
           </p>
         </div>
-
-        <div className="sm:flex sm:items-center sm:gap-4">
+        <div>
           <button
-            className={`inline-block w-full sm:w-auto shrink-0 rounded-md text-gray-800 border px-12 py-3 text-sm font-medium transition focus:outline-hidden focus:ring-3 ${
-              theme === 'dark'
-                ? 'border-neon-green bg-neon-green hover:bg-transparent hover:text-neon-green'
-                : 'border-neon-green bg-neon-green hover:bg-transparent hover:text-blue-600'
-            }`}
+            className={`w-full bg-[#174fa3] text-white font-medium py-2 rounded mt-2  text-base hover:bg-blue-900 transition`}
           >
             {isLoading ? (
               <svg className="animate-spin h-5 w-5 mx-auto" viewBox="0 0 24 24">
@@ -229,24 +212,43 @@ export default function SignUp(props: {
               'Create an account'
             )}
           </button>
+        </div>
 
+        <div className="flex justify-center items-center text-base mb-4">
           <p
-            className={`mt-4 text-sm text-center sm:text-left text-foreground sm:mt-0`}
           >
             Already have an account?{' '}
             <a
               href="#"
               onClick={() => stateSync('LOGIN')}
-              className={`underline text-foreground`}
+              className="ml-1 text-[#174fa3] font-semibold hover:text-blue-900"
             >
               Log in
             </a>
           </p>
         </div>
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-4 text-gray-400 text-sm font-medium">OR</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
       </form>
       <div className="mt-6 space-y-4">
         <GoogleSignIn text="Sign Up" />
-        <DiscordSignIn text="Sign Up" />
+        {/* <DiscordSignIn text="Sign Up" /> */}
+        <button
+          className={`w-full border border-[#174fa3] text-[#174fa3] bg-white py-2 rounded mb-2 text-base font-medium hover:bg-[#f0f6fb] transition`}
+        >
+          <span className="mr-2"> {/* Optional: Clever logo here */} </span>
+          Continue with Clever
+        </button>
+
+        <button
+          className={`w-full border border-[#174fa3] text-[#174fa3] bg-white py-2 rounded mb-2 text-base font-medium hover:bg-[#f0f6fb] transition`}
+        >
+          <span className="mr-2"> {/* Optional: ClassLink logo here */} </span>
+          Continue with ClassLink
+        </button>
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import dynamic from 'next/dynamic';
 
 import { FiMenu } from 'react-icons/fi';
-import { ArrowUp, Square, Paperclip, X, Menu, Plus } from 'lucide-react';
+import { ArrowUp, Square, Paperclip, X, Menu, Plus, Send } from 'lucide-react';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import BloomLogo from '@/components/bloomlogo';
 import { toast } from 'sonner';
@@ -50,6 +50,9 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { departureMono } from '@/utils/fonts';
+import { Roboto } from 'next/font/google';
+
+const roboto = Roboto({ subsets: ['latin'], weight: '400' });
 
 const Sidebar = dynamic(() => import('@/components/sidebar'), {
   ssr: false,
@@ -890,7 +893,7 @@ What's on your mind? Let's dive in. 🌱`,
           ref={sidebarPanelRef}
           defaultSize={25}
           minSize={20}
-          maxSize={40}
+          maxSize={15}
           collapsible
           className={isMobile ? 'hidden' : ''}
         >
@@ -949,7 +952,7 @@ What's on your mind? Let's dive in. 🌱`,
                 </button>
                 <div className="flex flex-col justify-center items-start gap-1">
                   <div
-                    className={`text-foreground text-xl font-normal ${departureMono.className}`}
+                    className={`text-foreground text-xl font-normal ${roboto.className}`}
                   >
                     {conversations?.find(
                       (c) => c.conversationId === conversationId
@@ -1012,7 +1015,7 @@ What's on your mind? Let's dive in. 🌱`,
                   <div className="text-center text-xs text-muted-foreground mb-2">
                     Rate limit: 8 messages per minute
                   </div>
-                  <div className="relative max-w-[740px] mx-auto px-10">
+                  <div className="relative w-full mx-auto px-10">
                     <FileUpload
                       onFilesAdded={handleFilesAdded}
                       accept=".pdf,.txt"
@@ -1028,7 +1031,6 @@ What's on your mind? Let's dive in. 🌱`,
                             chat();
                           }
                         }}
-                        className="w-full border-border bg-card"
                       >
                         {selectedFiles.length > 0 && (
                           <div className="flex flex-wrap gap-1 pb-2">
@@ -1043,37 +1045,38 @@ What's on your mind? Let's dive in. 🌱`,
                             ))}
                           </div>
                         )}
+                        <div className="flex items-center gap-2 w-full">
 
-                        <PromptInputTextarea
-                          placeholder={
-                            canUseApp
-                              ? selectedFiles.length > 0
-                                ? `Message with file...`
-                                : 'Type a message or drop a file...'
-                              : 'Subscribe to send messages'
-                          }
-                          disabled={!canUseApp}
-                          className="placeholder:text-muted-foreground"
-                        />
-                        <PromptInputActions className="justify-end pt-2">
+                          {/* <PromptInputActions className="justify-end pt-2"> */}
                           <PromptInputAction tooltip="Attach files">
                             <FileUploadTrigger asChild>
                               <Button
                                 size="icon"
-                                className={`h-10 w-10 rounded-full bg-card border border-border hover:bg-muted transition-colors`}
+                                className={`h-10 w-10 rounded-full bg-card hover:bg-muted transition-colors`}
                                 disabled={!canUseApp}
                                 type="button"
                               >
-                                <Paperclip
-                                  className={`size-4 text-muted-foreground`}
-                                />
+                                <Plus className="size-6 text-foreground1" />
+
                               </Button>
                             </FileUploadTrigger>
                           </PromptInputAction>
+                          <div className="flex-1 border rounded bg-card px-3 py-1">
+                            <PromptInputTextarea
+                              placeholder={
+                                canUseApp
+                                  ? selectedFiles.length > 0
+                                    ? `Message with file...`
+                                    : 'Type a message or drop a file...'
+                                  : 'Subscribe to send messages'
+                              }
+                              disabled={!canUseApp}
+                              className="placeholder:text-muted-foreground"
+                            />
+                          </div>
                           <Button
                             variant="default"
-                            size="icon"
-                            className="h-10 w-10 rounded-full bg-foreground text-background hover:bg-foreground/90 transition-colors"
+                            className="flex items-center gap-2 bg-secondary-background2 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded transition-colors"
                             disabled={!canSend || !canUseApp}
                             type="button"
                             onClick={() => {
@@ -1086,10 +1089,11 @@ What's on your mind? Let's dive in. 🌱`,
                             {!canSend ? (
                               <Square className="size-4 fill-current" />
                             ) : (
-                              <ArrowUp className="size-4" />
+                              <Send className="size-4" />
                             )}
+                            SEND
                           </Button>
-                        </PromptInputActions>
+                        </div>
                       </PromptInput>
 
                       <FileUploadContent>
