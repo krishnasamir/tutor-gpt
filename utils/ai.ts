@@ -1,19 +1,13 @@
 import { getHonchoApp, getHonchoUser } from '@/utils/honcho';
 import { createClient } from '@/utils/supabase/server';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
-import {
-  generateText as generateTextAi,
-  streamText as streamTextAi,
-  streamObject as streamObjectAi,
-} from 'ai';
+import { generateText as generateTextAi, streamText as streamTextAi } from 'ai';
 import d from 'dedent-js';
 
 import * as Sentry from '@sentry/nextjs';
-import { ZodTypeDef } from 'zod';
-import { ZodType } from 'zod';
 
 export interface Message {
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'system';
   content: string;
 }
 
@@ -23,6 +17,8 @@ const AI_BASE_URL = process.env.AI_BASE_URL || 'https://openrouter.ai/api/v1';
 const MODEL = process.env.MODEL || 'gpt-3.5-turbo';
 const SENTRY_RELEASE = process.env.SENTRY_RELEASE || 'dev';
 const SENTRY_ENVIRONMENT = process.env.SENTRY_ENVIRONMENT || 'local';
+
+
 
 const provider = createOpenAICompatible({
   name: AI_PROVIDER,
@@ -96,48 +92,11 @@ export function streamText(
       },
     },
     providerOptions: {
-      openrouter: {
+      'openrouter': {
         order: ['DeepInfra', 'Hyperbolic', 'Fireworks', 'Together', 'Lambda'],
-      },
-    },
+      }
+    }
   });
-
-  return result;
-}
-
-export function streamObject<OBJECT>(
-  params: Omit<
-    Parameters<typeof streamObjectAi<OBJECT>>[0],
-    'model' | 'experimental_telemetry' | 'schema'
-  > & {
-    schema: ZodType<OBJECT, ZodTypeDef, any>;
-    metadata: {
-      sessionId: string;
-      userId: string;
-      type: string;
-    };
-  }
-) {
-  const result = streamObjectAi({
-    ...params,
-    model: provider(MODEL),
-    experimental_telemetry: {
-      isEnabled: true,
-      metadata: {
-        sessionId: params.metadata.sessionId,
-        userId: params.metadata.userId,
-        release: SENTRY_RELEASE,
-        environment: SENTRY_ENVIRONMENT,
-        tags: [params.metadata.type],
-      },
-    },
-    providerOptions: {
-      openrouter: {
-        order: ['DeepInfra', 'Hyperbolic', 'Fireworks', 'Together', 'Lambda'],
-      },
-    },
-  });
-
   return result;
 }
 
@@ -174,10 +133,10 @@ export async function createCompletion(
       },
     },
     providerOptions: {
-      openrouter: {
+      'openrouter': {
         order: ['DeepInfra', 'Hyperbolic', 'Fireworks', 'Together', 'Lambda'],
-      },
-    },
+      }
+    }
   });
 
   return result.text;
@@ -209,11 +168,49 @@ export function generateText(
       },
     },
     providerOptions: {
-      openrouter: {
+      'openrouter': {
         order: ['DeepInfra', 'Hyperbolic', 'Fireworks', 'Together', 'Lambda'],
-      },
-    },
+      }
+    }
   });
 
   return result;
+}
+const SYSTEM_PROMPT = `You are a Socratic phase classifier.
+
+Your job is to classify a student's message into one of three learning phases: "before", "during", or "after".
+
+Definitions:
+- "before": The student is asking for help, expressing confusion, or initiating a new question (e.g., "How do I...?" or "What is 9 - 3?")
+- "during": The student is reasoning through a problem, asking a clarifying question about their own thought process (e.g., "Should I factor this next?" or "Is -2 one of the answers?")
+- "after": The student is reflecting on what they did, or summarizing their approach (e.g., "So I rewrote the expression as..." or "Then I got x = 3")
+
+Instructions:
+- Analyze the **intention** behind the message, not just its format.
+- Even if the message is a question, classify it based on the student's role in the learning process.
+- Respond with ONLY one word: "before", "during", or "after".
+`;
+
+export async function detectPhaseWithLLM(userInput: string): Promise<"before" | "during" | "after"> {
+  const model = provider(MODEL);
+
+  const result = await generateTextAi({
+    model,
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userInput }
+    ],
+    temperature: 0,
+    providerOptions: {
+      [AI_PROVIDER]: {
+        max_tokens: 5
+      }
+    }
+  });
+
+  const response = result.text?.toLowerCase().trim();
+
+  if (response?.includes("during")) return "during";
+  if (response?.includes("after")) return "after";
+  return "before";
 }
