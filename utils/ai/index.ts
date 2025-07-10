@@ -16,7 +16,7 @@ import {
   extractTagContent,
 } from '@/utils/ai/prompts';
 import { checkAndGenerateSummary } from '@/utils/ai/summary';
-import { detectPhaseWithLLM, streamText } from '@/utils/ai';
+//import { detectPhaseWithLLM, streamText } from '@/utils/ai';
 import { Collection } from 'honcho-ai/resources/apps/users/collections/collections.mjs';
 
 const MAX_COLLECTION_SIZE_IN_MB = 5;
